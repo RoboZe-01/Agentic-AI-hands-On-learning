@@ -9,6 +9,7 @@ from langchain_mistralai import ChatMistralAI    # Mistral model as LLM
 from langchain_groq import ChatGroq              # Groq model as LLM
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate # Prompt template
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 # Load the .env 
@@ -24,6 +25,17 @@ model = ChatGroq(model="openai/gpt-oss-20b")
 data = TextLoader(r"D:\Robotics\Agentic AI hands On learning\GenAI-2\RAG project\data\notes.txt")
 docs = data.load()
 
+
+# ----- Chuncking ----- 
+
+splitter = RecursiveCharacterTextSplitter(           # Initializing the splitter function 
+    chunk_size = 1000 ,
+    chunk_overlap = 200,
+)
+
+# Using splitter function to split/chunk the data 
+
+chunks = splitter.split_documents(docs) 
 # ----- Chat Template creations ----- 
 
 template = ChatPromptTemplate.from_messages(
